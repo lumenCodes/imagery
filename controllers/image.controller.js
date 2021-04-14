@@ -1,11 +1,11 @@
 class ImageController {
 async create(req, res){
-    res.send('I don reach o>>>')
+    res.send('Image created')
 
 };
 
 async getAll(req, res){
-res.send('I don reach o we GETTING')    
+res.send('this is all the images')    
 }
 };
 
