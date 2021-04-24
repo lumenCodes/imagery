@@ -5,13 +5,15 @@ const userRouter = express.Router();
 const userController = require('../controllers/user.controller');
 
 
-userRouter.patch('/', userController.update)
+userRouter.patch('/:id', userController.update)
 
-userRouter.delete('/', userController.delete)
+userRouter.delete('/:id', userController.delete)
 
 userRouter.post('/', userController.create)
 
 userRouter.get('/', userController.getAll)
+
+userRouter.get('/:id', userController.getOne)
 
 
 module.exports= userRouter;

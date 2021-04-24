@@ -23,6 +23,15 @@ class ImageController {
         res.status(200).send({message: 'this is all the images', data: images});    
     };
 
+    async getOne(req, res){
+        const image = Image.findById()
+        res.status(200).send({
+            success: true,
+            data: image,
+            message: 'Image found'
+        })
+    }
+
     async update(req, res){
         const image = await Image.findByIdAndUpdate()
         res.status(200).send({
@@ -34,7 +43,7 @@ class ImageController {
 
     async delete(req, res){
         const image = await Image.findByIdAndDelete()
-        res.status(201).send({
+        res.status(200).send({
             success: true,
             message: 'Image deleted succesfully',
             data: image

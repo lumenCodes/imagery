@@ -8,6 +8,8 @@ router.post('/', imageController.create)
 
 router.get('/', imageController.getAll)
 
+router.get('/:id', imageController.getOne)
+
 router.delete('/', imageController.delete)
 
 router.patch('/', imageController.update)
