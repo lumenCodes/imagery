@@ -10,9 +10,9 @@ router.get('/', imageController.getAll)
 
 router.get('/:id', imageController.getOne)
 
-router.delete('/', imageController.delete)
+router.delete('/:id', imageController.delete)
 
-router.patch('/', imageController.update)
+router.patch('/:id', imageController.update)
 
 
 

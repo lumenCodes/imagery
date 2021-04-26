@@ -21,12 +21,31 @@ class UserController{
         
     };
     async update(req, res){
+        // validate
+        if(!(Object.entries(req.body).length)){
+            return res.status(400).send({
+                success: false,
+                message: 'There is no update parameter'
+            })
+        }
+
+
         const options = {
             new: true
         }
-        const user = await User.findByIdAndUpdate(req.params.id, req.body)
+        // console.log(req.body, req.params)
+        const user = await User.findById(req.params.id)
+        if(!user) return res.status(400).send({
+            success: false,
+            message: 'user not found or them deltam'
+        })
 
-        res.status(201).send({
+        user.username = req.body.username;
+        user.password = req.body.password;
+
+        await user.save()
+        
+        res.status(200).send({
             success: true,
             message: 'User detail updated',
             data: user

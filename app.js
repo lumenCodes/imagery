@@ -13,7 +13,12 @@ app.use('/api/v1/users', userRoutes);//middleware
 
 
 
-    mongoose.connect('mongodb://localhost:27017/imagery', {useNewUrlParser: true,  useUnifiedTopology: true }).then(() => {
+    mongoose.connect('mongodb://localhost:27017/imagery',
+    {
+        useNewUrlParser: true, 
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    }).then(() => {
         console.log('Connected to database...')
 
     })

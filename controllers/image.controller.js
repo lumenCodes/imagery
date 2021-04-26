@@ -24,21 +24,41 @@ class ImageController {
     };
 
     async getOne(req, res){
-        const image = Image.findById()
+        const image = await Image.findById(req.params.id)
+        if(!image) return res.status(404).send({
+            success: false,
+            message: 'Image does not exist'
+        })
         res.status(200).send({
             success: true,
-            data: image,
-            message: 'Image found'
+            message: 'Image found',
+            data: image            
         })
     }
 
     async update(req, res){
-        const image = await Image.findByIdAndUpdate()
-        res.status(200).send({
+        const options = {
+            new: true
+        }
+
+        await Image.findByIdAndUpdate(req.params.id, req.body, options, (error, image) => {
+            // we have checked error
+            if(error) {
+                return res.status(400).send({ success: false, message: error.message });
+            }
+
+            if(!image) return res.status(404).send({ success: false, message: 'image not found or might have been deleted'})
+
+            // the operation went succesful
+
+            res.status(200).send({
             success: true,
             message: 'Image detail updated succesfully',
             data: image
+            })
+
         })
+        
     };
 
     async delete(req, res){
