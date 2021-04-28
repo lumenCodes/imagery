@@ -1,5 +1,6 @@
 const {Image} = require ('../models/image') //model and schema
 
+const userController = require('./user.controller')
 
 class ImageController {
     async create(req, res){
@@ -37,6 +38,15 @@ class ImageController {
     }
 
     async update(req, res){
+        // validate
+        if(!(Object.entries(req.body).length)){
+            return res.status(400).send({
+                success: false,
+                message: 'There is no update parameter'
+            }
+            )
+        }
+    
         const options = {
             new: true
         }
@@ -46,7 +56,9 @@ class ImageController {
             if(error) {
                 return res.status(400).send({ success: false, message: error.message });
             }
-
+/**
+ * I noticed there is no user.save method here.
+ */
             if(!image) return res.status(404).send({ success: false, message: 'image not found or might have been deleted'})
 
             // the operation went succesful
@@ -62,7 +74,13 @@ class ImageController {
     };
 
     async delete(req, res){
-        const image = await Image.findByIdAndDelete()
+
+        const image = await Image.findByIdAndDelete(req.params.id)
+        if (!image) return res.status(400).send({
+            success: false,
+            message: 'Image is not in the database or Incorrect image id'
+        })
+        await image.delete()
         res.status(200).send({
             success: true,
             message: 'Image deleted succesfully',
