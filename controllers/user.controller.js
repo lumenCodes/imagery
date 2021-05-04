@@ -1,5 +1,6 @@
-const {User} = require('../models/user');
+const {User, userSchemaValidator} = require('../models/user');
 const imageController = require('./image.controller');
+const bcrypt = require('bcrypt');
 
 
 
@@ -42,7 +43,8 @@ class UserController{
         })
 
         user.username = req.body.username;
-        user.password = req.body.password;
+        const Salt  = await bcrypt.genSalt(8)
+        user.password = await bcrypt.hash(req.body.password, Salt);
 
         await user.save()
         
@@ -53,9 +55,20 @@ class UserController{
         })
     };
     async create(req, res){
-        const user = new User(req.body);
+        const validData = await userSchemaValidator(req.body)
 
-        if (!(Object.entries(req.body).length)) return res.status(400).send({
+        let _user = await User.findOne({ email: validData.email });
+        if (_user) return res.status(409).send({ success: false, message: 'A user already exist with this email, Login instead' });
+
+        const user = new User(validData);
+
+        /**
+         * So this section does exactly what Joi does in a manual way, 
+         * so we can remove it and use Joi instead for validation but I am just going,
+         * to live it here for now.
+         * 
+         * 
+         if (!(Object.entries(req.body).length)) return res.status(400).send({
             success: false,
             message: 'There is no body in the request'
         })
@@ -71,15 +84,18 @@ class UserController{
                  })
             }
         }
+         * 
+        */
 
+        // let _email = await User.findOne({ email: req.body.email }) /// Yhis is an object because findone accepts arguments as objects
+        // if (_email) return res.send({
+        //     message: 'This email alreayd exist in the DB'
+        // })
+
+        const userPassword = req.body.password
         
-        let _user = await User.findOne({ email: req.body.email });
-        if (_user) return res.status(409).send({ success: false, message: 'A user already exist with this email, Login instead' });
-
-        let _email = await User.findOne({ email: req.body.email }) /// Yhis is an object because findone accepts arguments as objects
-        if (_email) return res.send({
-            message: 'This email alreayd exist in the DB'
-        })
+        
+        user.password = await bcrypt.hash(userPassword, Salt)
 
         await user.save() // why did we use user.save here
         res.status(200).send({
