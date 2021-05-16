@@ -32,7 +32,7 @@ exports.userSchemaValidator = async(user) => {
             .trim()
             .lowercase()
             .email()
-    })
+    }) 
 
     const value = await schema.validateAsync(user)
     return value
