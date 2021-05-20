@@ -5,7 +5,7 @@ class AuthenticationService {
 	generateLoginAuthToken = (user) => {
 		const token = jwt.sign(
 			{ id: user._id, isAdmin: user.isAdmin },
-			config.get("jwtPrivateKey"),
+			process.env.JWTPRIVATEKEY,
 			{ expiresIn: '1min' }
 		);
 	  return token;

@@ -7,7 +7,7 @@ const userRoutes = require('../routes/user.routes');
 const authRoutes = require('../routes/auth')
 
 // setting up envirnment
-if (!config.get('jwtPrivateKey')) {
+if (!process.env.JWTPRIVATEKEY) {
     console.error('FATAL ERROR: jwtPrivateKey is not defined')
     process.exit(1); 
 }

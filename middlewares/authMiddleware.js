@@ -6,7 +6,7 @@ exports.authorization = (req, res, next) => {
 	if (!authToken) return res.status(401).send({ message: "Access denied" });
 
 	try {
-		const accessPermission = jwt.verify(authToken, config.get("jwtPrivateKey"));
+		const accessPermission = jwt.verify(authToken, process.env.JWTPRIVATEKEY);
 		req.user = accessPermission;
 		console.log(req.user)
 		next();
