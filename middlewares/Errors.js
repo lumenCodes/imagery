@@ -1,7 +1,7 @@
 module.exports = (error, req, res, next) => {
   const data = {
     success: false,
-    message: `Something failed:... ${error.message}`
+    message: `E don spoil:... ${error.message}`
   };
 
   console.error('From async error middleware', error);

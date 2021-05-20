@@ -12,7 +12,9 @@ const userSchema = new mongoose.Schema({
     password: {
         type: 'string',
         minlength: 5
-    }
+    },
+
+    isAdmin: Boolean
 });
 
 exports.userSchemaValidator = async(user) => {
