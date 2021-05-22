@@ -1,12 +1,18 @@
 const {Image} = require ('../models/image') //model and schema
-
+const {User} = require('../models/user')
 const userController = require('./user.controller')
 
 class ImageController {
     async create(req, res){
         try {
-            const image = new Image(req.body);
-
+            const { title, dimension,extension } = req.body
+            const image = await new Image(req.body);
+            image.owner = req.user.id
+            
+            const owner = await User.findById(req.user.id)
+            owner.images.push(image)
+            
+            
             await image.save()
             res.status(201).send({
                 success: true,
