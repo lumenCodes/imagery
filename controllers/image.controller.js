@@ -7,13 +7,15 @@ class ImageController {
         try {
             const { title, dimension,extension } = req.body
             const image = await new Image(req.body);
-            image.owner = req.user.id
+            image.person = req.user.id
             
             const owner = await User.findById(req.user.id)
-            owner.images.push(image)
+            // owner.images.push(image)
             
-            
+             
             await image.save()
+            await image.populate('person')
+            
             res.status(201).send({
                 success: true,
                 message: 'Image created',

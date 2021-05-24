@@ -6,7 +6,7 @@ class AuthenticationService {
 		const token = jwt.sign(
 			{ id: user._id, isAdmin: user.isAdmin },
 			process.env.JWTPRIVATEKEY,
-			{ expiresIn: '1hr' }
+			{ expiresIn: '24hr' }
 		);
 	  return token;
 	}

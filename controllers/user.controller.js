@@ -39,6 +39,7 @@ class UserController {
 			res.send(error);
 		}
 	};
+
 	update = async (req, res) => {
 		// validate
 		if (!Object.entries(req.body).length) {
@@ -60,6 +61,7 @@ class UserController {
 
 		user.username = req.body.username;
 		user.password = await this.hashPassword(req.body.password);
+		
 		await user.save();
 
 		res.status(200).send({
@@ -83,7 +85,7 @@ class UserController {
 		let user = new User(validData);
 
 		user = await this.setPassword(user);
-		await user.save(); // why did we use user.save here
+		await user.save(); 
 		res.status(201).send({
 			success: true,
 			message: "New user created",
@@ -128,7 +130,32 @@ class UserController {
 		}
 	};
 
-	postbyme = async (req, res) => {
+	addNewImage = async (req, res) => {
+		// validate image
+		// user_id
+		const user = await User.findById({
+			_id: req.params.userId,
+		});
+
+		if (!user) {
+			// if this si not a valid user id
+			return res.status(404).send({
+				success: false,
+				message: "user not found",
+			});
+		}
+
+		user.images.push(req.body)
+		user.save()
+
+		res.status(201).send({
+			success: true,
+			message: 'image added',
+			data: user.images
+		})
+	}
+
+	imagesbyme = async (req, res) => {
 		try {
 			//authentication
 			const user = await User.findById({
@@ -136,7 +163,7 @@ class UserController {
 			});
 
 			if (!user) {
-				// if this si not a valid user id
+				// if this is not a valid user id
 				return res.status(404).send({
 					success: false,
 					message: "user not found",

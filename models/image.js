@@ -1,17 +1,26 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const imageSchema = new mongoose.Schema(
+exports.imageSchema = new mongoose.Schema(
+	{
+		title: "string",
+		dimension: "number",
+		extension: "string"
+	},
+	{ timestamps: true }
+);
+
+exports.personImageSchema = new mongoose.Schema(
 	{
 		title: "string",
 		dimension: "number",
 		extension: "string",
 		owner: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "user",
-			required: true,
+			ref: "person",
 		},
 	},
+	
 	{ timestamps: true }
 );
 
@@ -25,6 +34,8 @@ imageSchemaValidator = async () => {
 	});
 };
 
-const Image = mongoose.model("Image", imageSchema);
+// exports.Image = mongoose.model("Image", this.imageSchema);
+exports.Image = mongoose.model("PersonImage", this.personImageSchema);
 
-module.exports = { Image };
+
+// module.exports = { Image };

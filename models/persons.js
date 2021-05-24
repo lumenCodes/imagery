@@ -2,23 +2,13 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 const {imageSchema} = require('../models/image')
 
-const userSchema = new mongoose.Schema(
+const personSchema = new mongoose.Schema(
 	{
-		username: String,
+		fullName: {
+      type: String,
+      required: true
+    }
 
-		email: {
-			type: String,
-			unique: true,
-		},
-
-		password: {
-			type: String,
-			minlength: 5,
-		},
-
-		images: [ imageSchema ],
-
-		isAdmin: Boolean,
 	},
 	{ timestamps: true }
 );
@@ -39,5 +29,5 @@ exports.userSchemaValidator = async (user) => {
 	return value;
 };
 
-exports.User = mongoose.model("User", userSchema);
+exports.Person = mongoose.model("Person", personSchema);
 // module.exports = {User};

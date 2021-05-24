@@ -1,6 +1,6 @@
 const config = require('config')
 const express = require ('express')
-const errors = require('./Errors')
+// const errors = require('./Errors')
 
 const imageRoutes = require('../routes/image.routes');
 const userRoutes = require('../routes/user.routes');
@@ -20,5 +20,5 @@ module.exports = (app) => {
     app.use('/api/v1/users', userRoutes);//middleware
     app.use('/api/v1/auth', authRoutes);//middleware
 
-    app.use(errors)
+    // app.use(errors)
 }
