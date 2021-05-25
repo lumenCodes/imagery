@@ -6,11 +6,7 @@ const imageSchema = new mongoose.Schema(
 		title: "string",
 		dimension: "number",
 		extension: "string",
-		owner: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "user",
-			required: true,
-		},
+		imageURL: String
 	},
 	{ timestamps: true }
 );

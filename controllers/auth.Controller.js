@@ -1,4 +1,3 @@
-const config = require("config");
 const { User, userSchemaValidator } = require("../models/user");
 const imageController = require("./image.controller");
 const bcrypt = require("bcrypt");

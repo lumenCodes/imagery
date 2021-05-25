@@ -15,13 +15,6 @@ const userSchema = new mongoose.Schema(
 			minlength: 5,
 		},
 
-		images: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "images",
-			},
-		],
-
 		isAdmin: Boolean,
 	},
 	{ timestamps: true }

@@ -1,17 +1,27 @@
 const {Image} = require ('../models/image') //model and schema
 const {User} = require('../models/user')
 const userController = require('./user.controller')
+const cloudinary = require('../config/cloudinary')
 
 class ImageController {
     async create(req, res){
         try {
+            // validation file and body
+            if (!('file' in req)) {
+                return res.send('file no attached')
+            }
+            // multer have taken over and req.file exist
+
+            // this is a response from cloudinary
+            const response = await cloudinary.uploadImage(req.file.path)
+            
             const { title, dimension,extension } = req.body
-            const image = await new Image(req.body);
-            image.owner = req.user.id
-            
-            const owner = await User.findById(req.user.id)
-            owner.images.push(image)
-            
+            const image = await new Image({
+                title: req.file.originalname.split('.')[0],
+                imageURL: response.secure_url,
+                dimension: response.width,
+                extension: response.format
+            });   
             
             await image.save()
             res.status(201).send({
@@ -26,8 +36,9 @@ class ImageController {
     };
 
     async getAll(req, res){
+
         const images = await Image.find()
-        res.status(200).send({message: 'this is all the images', data: images});    
+        res.status(200).send({message: 'this is all the images ' + images.length, data: images});    
     };
 
     async getOne(req, res){
