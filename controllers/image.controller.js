@@ -35,8 +35,8 @@ class ImageController {
 
     };
 
-    async getAll(req, res){
-
+    getAll = async (req, res) => {
+        
         const images = await Image.find()
         res.status(200).send({message: 'this is all the images ' + images.length, data: images});    
     };
