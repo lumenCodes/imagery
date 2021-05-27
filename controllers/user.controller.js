@@ -73,12 +73,10 @@ class UserController {
 
 		let _user = await User.findOne({ email: validData.email });
 		if (_user)
-			return res
-				.status(409)
-				.send({
-					success: false,
-					message: "A user already exist with this email, Login instead",
-				});
+			return res.status(409).send({
+				success: false,
+				message: "A user already exist with this email, Login instead",
+			});
 
 		let user = new User(validData);
 
@@ -104,6 +102,9 @@ class UserController {
 		try {
 			const user = await User.findById({
 				_id: req.params.id,
+			}).populate({
+				path: "imagesOwned"
+				// select: "title imageURL"
 			});
 
 			if (!user) {
@@ -128,35 +129,46 @@ class UserController {
 		}
 	};
 
-	postbyme = async (req, res) => {
-		try {
-			//authentication
-			const user = await User.findById({
-				_id: req.params.id,
-			});
+	// postbyme = async (req, res) => {
+	// 	try {
+	// 		//authentication
+	// 		const user = await User.findById({
+	// 			_id: req.params.id,
+	// 		});
 
-			if (!user) {
-				// if this si not a valid user id
-				return res.status(404).send({
-					success: false,
-					message: "user not found",
-				});
-			}
-			// to fetch the posts by the user
-			const images = user.images;
-			console.log(images);
-			const imagesByUser = await Image.findById(user).populate("images");
-			res.status(200).send({
-				success: true,
-				message: "images retreived",
-				data: imagesByUser,
+	// 		if (!user) {
+	// 			// if this si not a valid user id
+	// 			return res.status(404).send({
+	// 				success: false,
+	// 				message: "user not found",
+	// 			});
+	// 		}
+	// 		// to fetch the posts by the user
+	// 		const images = user.images;
+	// 		console.log(images);
+	// 		const imagesByUser = await Image.findById(user).populate("images");
+	// 		res.status(200).send({
+	// 			success: true,
+	// 			message: "images retreived",
+	// 			data: imagesByUser,
+	// 		});
+	// 	} catch (error) {
+	// 		return res.status(404).send({
+	// 			success: false,
+	// 			message: error.message,
+	// 			deatil: error,
+	// 		});
+	// 	}
+	// };
+	imagesbyme = async (req, res) => {
+		try {
+			const data = await User.find().populate({
+				path: "imagesOwned"
+				// select: "title imageURL"
 			});
-		} catch (error) {
-			return res.status(404).send({
-				success: false,
-				message: error.message,
-				deatil: error,
-			});
+			res.status(200).json({ success: true, data });
+		} catch (err) {
+			res.status(400).json({ success: false, message: err.message });
 		}
 	};
 }

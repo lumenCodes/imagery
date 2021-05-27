@@ -15,7 +15,9 @@ userRouter.get('/', userController.getAll)
 
 userRouter.get('/:id', userController.getOne)
 
-userRouter.get('/imagesbyme/:id', userController.postbyme)
+// userRouter.get('/imagesbyme/:id', userController.postbyme)
+
+userRouter.get('/i/imagesbyme', userController.imagesbyme)
 
 
 module.exports= userRouter;

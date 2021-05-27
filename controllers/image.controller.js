@@ -20,7 +20,8 @@ class ImageController {
                 title: req.file.originalname.split('.')[0],
                 imageURL: response.secure_url,
                 dimension: response.width,
-                extension: response.format
+                extension: response.format,
+                owner: req.user.id
             });   
             
             await image.save()
@@ -38,6 +39,9 @@ class ImageController {
     getAll = async (req, res) => {
         
         const images = await Image.find()
+            .populate({path: 'owner', model: User, select: 'username -_id'})
+
+
         res.status(200).send({message: 'this is all the images ' + images.length, data: images});    
     };
 

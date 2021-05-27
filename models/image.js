@@ -3,10 +3,11 @@ const Joi = require("joi");
 
 const imageSchema = new mongoose.Schema(
 	{
+		owner: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 		title: "string",
 		dimension: "number",
 		extension: "string",
-		imageURL: String
+		imageURL: String,
 	},
 	{ timestamps: true }
 );

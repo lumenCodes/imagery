@@ -15,10 +15,21 @@ const userSchema = new mongoose.Schema(
 			minlength: 5,
 		},
 
-		isAdmin: Boolean,
+		// get a user and see the number of images it has
+		// images: {  },
+
+		isAdmin: { type: Boolean, default: false },
 	},
 	{ timestamps: true }
 );
+
+userSchema.virtual("imagesOwned", {
+	ref: "Image",
+	localField: "_id",
+	foreignField: "owner"
+});
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
 
 exports.userSchemaValidator = async (user) => {
 	const schema = Joi.object({
@@ -31,5 +42,4 @@ exports.userSchemaValidator = async (user) => {
 	return value;
 };
 
-const User = mongoose.model("User", userSchema);
-module.exports = {User};
+exports.User = mongoose.model("User", userSchema);
