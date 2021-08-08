@@ -22,7 +22,9 @@ This project is hosted online at https://imagery-repo.herokuapp.com/api/v1/image
 [Docs](https://documenter.getpostman.com/view/15614151/TzY3BFbu)
 
 ### How to contribute to the Project
+There are still some work left like implementing search by image and characteristics.
 You can send me a DM on [twitter](https://twitter.com/lumencodes)
+
 
 ### License
 IMT 
