@@ -3,7 +3,7 @@ const express = require ('express')
 const errors = require('./Errors')
 
 const imageRoutes = require('../routes/image.routes');
-const userRoutes = require('../routes/user.routes');
+const userRoutes = require('../routes/juser.routes');
 const authRoutes = require('../routes/auth');
 
 var fs = require('fs')
@@ -30,7 +30,7 @@ module.exports = (app) => {
     app.use('/api/v1/auth', authRoutes);//middleware
     
     app.get('/', (request, response) => {
-        response.status(200).send('Yeah! Server is life...')
+        response.status(200).send('Yeah! Server is live...')
     });
 
     app.use(errors)
